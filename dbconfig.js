@@ -8,3 +8,5 @@ const config = {
         trustedConnection: true,
     }
 }
+
+export default config

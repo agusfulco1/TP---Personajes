@@ -1,4 +1,4 @@
-import config from "./../dbconfig"
+import config from "./../dbconfig.js"
 import sql from "mssql"
 const {MAX, NVarChar, VARCHAR} = sql
 
@@ -15,3 +15,5 @@ export class personajesService {
         }
     }
 }
+
+export default personajesService
