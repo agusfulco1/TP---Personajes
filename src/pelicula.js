@@ -5,3 +5,5 @@ class Pelicula{
     fechaCreacion;
     calificacion;
 }
+
+export default Pelicula

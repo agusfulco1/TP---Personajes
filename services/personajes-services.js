@@ -1,4 +1,4 @@
-import config from "./../dbconfig.js"
+import { config } from "./../dbconfig.js"
 import sql from "mssql"
 const {MAX, NVarChar, VARCHAR} = sql
 
@@ -7,7 +7,7 @@ export class personajesService {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-                                .query('SELECT * FROM Pizzas')
+                                .query('SELECT Id,Titulo,Imagen FROM PeliculaSerie')
             return result.recordsets[0];
         }
         catch (error) {
