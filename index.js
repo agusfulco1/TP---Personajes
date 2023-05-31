@@ -1,5 +1,5 @@
 import express from "express"
-import personajesService from "./services/personajes-services.js";
+import personajesService from "./src/services/personajes-services.js";
 const app = express();
 const port = 3000;
 
