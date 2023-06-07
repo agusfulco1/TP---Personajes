@@ -38,11 +38,11 @@ app.put('/characters', async (req, res) => {
     }
 })
 app.get('/characters/:id', async (req, res) => {
-    const pizza = await personajesService.getById(req.params.id)
-    if (!pizza) {
-        res.status(200).send("No existe esa pizza")
+    const personaje = await personajesService.getByID(req.params.id)
+    if (!personaje) {
+        res.status(200).send("No existe esa personaje")
     }
-    res.status(200).send(pizza)
+    res.status(200).send(personaje)
     
 })
 app.listen(port, () => {

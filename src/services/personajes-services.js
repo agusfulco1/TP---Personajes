@@ -26,7 +26,6 @@ export class personajesService {
     }
     static insert = async(personaje) => {
         try {
-            console.log(personaje)
             let pool = await sql.connect(config);
             let result = await pool.request()
                                 .input('pImagen', personaje.Imagen)
@@ -43,7 +42,6 @@ export class personajesService {
     }
     static update = async(personaje) => {
         try {
-            console.log(personaje)
             let pool = await sql.connect(config);
             let result = await pool.request()
                                 .input('pId', personaje.Id)
@@ -63,7 +61,8 @@ export class personajesService {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-                                .query('SELECT P.*, Titulo FROM Personaje P INNER JOIN PeliculaxPersonaje PP ON PP.idPersonaje = P.Id INNER JOIN PeliculaSerie PS ON PS.Id = PP.idPelicula')
+                                .input('pId', sql.Int, personaje.Id)
+                                .query('SELECT P.*, Titulo FROM Personaje P INNER JOIN PeliculaxPersonaje PP ON PP.idPersonaje = P.Id INNER JOIN PeliculaSerie PS ON PS.Id = PP.idPelicula WHERE P.Id = ')
             return result.recordsets[0];
         }
         catch (error) {
