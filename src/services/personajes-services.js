@@ -62,12 +62,15 @@ export class personajesService {
             let pool = await sql.connect(config);
             let result = await pool.request()
                                 .input('pId', sql.Int, personaje.Id)
-                                .query('SELECT P.*, Titulo FROM Personaje P INNER JOIN PeliculaxPersonaje PP ON PP.idPersonaje = P.Id INNER JOIN PeliculaSerie PS ON PS.Id = PP.idPelicula WHERE P.Id = ')
+                                .query('SELECT P.*, Titulo FROM Personaje P INNER JOIN PeliculaxPersonaje PP ON PP.idPersonaje = P.Id INNER JOIN PeliculaSerie PS ON PS.Id = PP.idPelicula WHERE P.Id = @pId')
             return result.recordsets[0];
         }
         catch (error) {
             console.log(error)
         }
+    }
+    static getByParam = async(params) => {
+        console.log(params)
     }
 }
 
