@@ -57,11 +57,11 @@ export class personajesService {
             console.log(error);
         }
     }
-    static getByID = async() => {
+    static getByID = async(id) => {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-                                .input('pId', sql.Int, personaje.Id)
+                                .input('pId', sql.Int, id)
                                 .query('SELECT P.*, Titulo FROM Personaje P INNER JOIN PeliculaxPersonaje PP ON PP.idPersonaje = P.Id INNER JOIN PeliculaSerie PS ON PS.Id = PP.idPelicula WHERE P.Id = @pId')
             return result.recordsets[0];
         }
@@ -70,7 +70,19 @@ export class personajesService {
         }
     }
     static getByParam = async(params) => {
-        console.log(params)
+        try {
+            let pool = await sql.connect(config);
+            let result = await pool.request()
+                                .input('pNombre', params.name)
+                                .input('pEdad', params.age)
+                                .input('pPeso', params.peso)
+                                .input('pTitulo', params.movies)
+                                .query('SELECT P.*, Titulo FROM Personaje P INNER JOIN PeliculaxPersonaje PP ON PP.idPersonaje = P.Id INNER JOIN PeliculaSerie PS ON PS.Id = PP.idPelicula WHERE P.Nombre = @pNombre OR P.Edad = @pEdad OR Peso = @pPeso OR PS.Titulo = @pTitulo')
+            return result.recordsets[0]
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
 }
 

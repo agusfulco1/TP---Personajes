@@ -43,6 +43,7 @@ export class PeliculasServices{
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
+                                .input('pId', sql.Int, pelicula.Id)
                                 .input('pImagen', pelicula.Imagen)
                                 .input('pTitulo', pelicula.Titulo)
                                 .input('pFechaCreacion', pelicula.FechaCreacion)
@@ -54,13 +55,33 @@ export class PeliculasServices{
             console.log(error);
         }
     }
-    static getByID = async() => {
+    static getByID = async(id) => {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-                                .input('pId', sql.Int, personaje.Id)
+                                .input('pId', sql.Int, id)
                                 .query('SELECT PS.*, P.Nombre AS NombrePersonaje FROM PeliculaSerie PS INNER JOIN PeliculaxPersonaje PP ON PP.idPelicula = PS.Id INNER JOIN Personaje P ON P.Id = PP.idPersonaje WHERE PS.Id = @pId')
             return result.recordsets[0];
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+    static getByParam = async(params) => {
+        try {
+            let pool = await sql.connect(config);
+            let result;
+            if (params.order == 'A') {
+                result = await pool.request()
+                                .input('pNombre', params.name)
+                                .query('SELECT PS.* FROM PeliculaSerie PS WHERE PS.Titulo = @pNombre ORDER BY PS.FechaCreacion ASC')
+            }
+            else {
+                result = await pool.request()
+                                .input('pNombre', params.name)
+                                .query('SELECT PS.* FROM PeliculaSerie PS WHERE PS.Titulo = @pNombre ORDER BY PS.FechaCreacion DESC')
+            }
+            return result.recordsets[0]
         }
         catch (error) {
             console.log(error)
